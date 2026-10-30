@@ -1,0 +1,416 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Band Members API",
+        "version": "1.0.0",
+        "description": "REST API для аутентификации и профилей участников рок-группы"
+    },
+    "paths": {
+        "/api/login/": {
+            "post": {
+                "operationId": "login_create",
+                "summary": "Вход в систему",
+                "tags": [
+                    "login"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Login"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Login"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Login"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "security": [
+                    {
+                        "SessionAuth": []
+                    },
+                    {
+                        "SessionIdAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserProfile"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/logout/": {
+            "post": {
+                "operationId": "logout_create",
+                "summary": "Выход из системы",
+                "tags": [
+                    "logout"
+                ],
+                "security": [
+                    {
+                        "SessionAuth": []
+                    },
+                    {
+                        "SessionIdAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": {}
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/profile/": {
+            "get": {
+                "operationId": "profile_retrieve",
+                "summary": "Получить профиль текущего пользователя",
+                "tags": [
+                    "profile"
+                ],
+                "security": [
+                    {
+                        "SessionAuth": []
+                    },
+                    {
+                        "SessionIdAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserProfile"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            },
+            "patch": {
+                "operationId": "profile_partial_update",
+                "description": "Поддерживает application/json.",
+                "summary": "Обновить профиль",
+                "tags": [
+                    "profile"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatchedProfile"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatchedProfile"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatchedProfile"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "SessionAuth": []
+                    },
+                    {
+                        "SessionIdAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserProfile"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/register/": {
+            "post": {
+                "operationId": "register_create",
+                "summary": "Регистрация нового музыканта",
+                "tags": [
+                    "register"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Register"
+                            },
+                            "examples": {
+                                "ПримерРегистрации": {
+                                    "value": {
+                                        "username": "string",
+                                        "password": "string"
+                                    },
+                                    "summary": "Пример регистрации"
+                                }
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Register"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Register"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "security": [
+                    {
+                        "SessionAuth": []
+                    },
+                    {
+                        "SessionIdAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserProfile"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/specializations/": {
+            "get": {
+                "operationId": "specializations_list",
+                "description": "Возвращает массив объектов с ключами value и label для выпадающего списка.",
+                "summary": "Список доступных специализаций",
+                "tags": [
+                    "specializations"
+                ],
+                "security": [
+                    {
+                        "SessionAuth": []
+                    },
+                    {
+                        "SessionIdAuth": []
+                    },
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SpecializationChoiceItem"
+                                    }
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Login": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string",
+                        "writeOnly": true
+                    }
+                },
+                "required": [
+                    "password",
+                    "username"
+                ]
+            },
+            "PatchedProfile": {
+                "type": "object",
+                "properties": {
+                    "first_name": {
+                        "type": "string",
+                        "maxLength": 100
+                    },
+                    "specialization": {
+                        "$ref": "#/components/schemas/SpecializationEnum"
+                    },
+                    "specialization_display": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "bio": {
+                        "type": "string"
+                    },
+                    "fee": {
+                        "type": "string",
+                        "format": "decimal",
+                        "pattern": "^-?\\d{0,8}(?:\\.\\d{0,2})?$"
+                    }
+                }
+            },
+            "Profile": {
+                "type": "object",
+                "properties": {
+                    "first_name": {
+                        "type": "string",
+                        "maxLength": 100
+                    },
+                    "specialization": {
+                        "$ref": "#/components/schemas/SpecializationEnum"
+                    },
+                    "specialization_display": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "bio": {
+                        "type": "string"
+                    },
+                    "fee": {
+                        "type": "string",
+                        "format": "decimal",
+                        "pattern": "^-?\\d{0,8}(?:\\.\\d{0,2})?$"
+                    }
+                },
+                "required": [
+                    "specialization_display"
+                ]
+            },
+            "Register": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "title": "Имя пользователя",
+                        "description": "Обязательное поле. Не более 150 символов. Только буквы, цифры и символы @/./+/-/_.",
+                        "pattern": "^[\\w.@+-]+$",
+                        "maxLength": 150
+                    },
+                    "password": {
+                        "type": "string",
+                        "writeOnly": true,
+                        "minLength": 6
+                    }
+                },
+                "required": [
+                    "password",
+                    "username"
+                ]
+            },
+            "SpecializationChoiceItem": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string"
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "label",
+                    "value"
+                ]
+            },
+            "SpecializationEnum": {
+                "enum": [
+                    "vocals",
+                    "guitar",
+                    "bass",
+                    "drums",
+                    "keys",
+                    "other"
+                ],
+                "type": "string",
+                "description": "* `vocals` - Вокал\n* `guitar` - Гитара\n* `bass` - Бас-гитара\n* `drums` - Ударные\n* `keys` - Клавишные\n* `other` - Другое"
+            },
+            "UserProfile": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "username": {
+                        "type": "string",
+                        "title": "Имя пользователя",
+                        "description": "Обязательное поле. Не более 150 символов. Только буквы, цифры и символы @/./+/-/_.",
+                        "pattern": "^[\\w.@+-]+$",
+                        "maxLength": 150
+                    },
+                    "profile": {
+                        "$ref": "#/components/schemas/Profile"
+                    }
+                },
+                "required": [
+                    "id",
+                    "profile",
+                    "username"
+                ]
+            }
+        },
+        "securitySchemes": {
+            "SessionAuth": {
+                "type": "apiKey",
+                "in": "cookie",
+                "name": "sessionid",
+                "description": "Сессионная авторизация через Cookie: sessionid=<id>"
+            },
+            "SessionIdAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Session-Id",
+                "description": "Вставьте значение session_key (sessionid) для авторизации запросов через заголовок"
+            }
+        }
+    }
+}
