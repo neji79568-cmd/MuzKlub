@@ -24,7 +24,7 @@ npm run preview
 
 Запросы отправляются на `https://inai-col2.fishrungames.com/api/` с `credentials: 'include'`. Сервер хранит сессию в cookie `sessionid` (`HttpOnly; Secure; SameSite=None`). Пароль не сохраняется в приложении. После перезагрузки приложение получает текущий профиль с сервера. Для работы входа браузер должен разрешать cookie учебного API.
 
-Методы: `POST /register/`, `POST /login/`, `POST /logout/`, `GET /profile/`, `PATCH /profile/`, `GET /specializations/`. Снимок OpenAPI: [docs/openapi.json](docs/openapi.json).
+Методы: `POST /register/`, `POST /login/`, `POST /logout/`, `GET /profile/`, `PATCH /profile/`, `GET /specializations/`.
 
 ## GitHub Pages
 
